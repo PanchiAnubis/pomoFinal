@@ -1,0 +1,10 @@
+^C:\USERS\VABUR\ONEDRIVE\ESCRITORIO\PLANTILLA_CA\BUILD\WINDOWS\CMAKEFILES\DA217CC8176BAFD25692E80B68CA824D\INSTALL_FORCE.RULE
+setlocal
+cd .
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

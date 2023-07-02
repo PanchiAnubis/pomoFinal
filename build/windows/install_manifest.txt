@@ -1,0 +1,14 @@
+C:/Users/vabur/OneDrive/Escritorio/plantilla_ca/build/windows/runner/Debug/data/icudtl.dat
+C:/Users/vabur/OneDrive/Escritorio/plantilla_ca/build/windows/runner/Debug/flutter_windows.dll
+C:/Users/vabur/OneDrive/Escritorio/plantilla_ca/build/windows/runner/Debug/data/flutter_assets/AssetManifest.json
+C:/Users/vabur/OneDrive/Escritorio/plantilla_ca/build/windows/runner/Debug/data/flutter_assets/AssetManifest.smcbin
+C:/Users/vabur/OneDrive/Escritorio/plantilla_ca/build/windows/runner/Debug/data/flutter_assets/assets/images/450_1000.jpg
+C:/Users/vabur/OneDrive/Escritorio/plantilla_ca/build/windows/runner/Debug/data/flutter_assets/assets/images/codigo.png
+C:/Users/vabur/OneDrive/Escritorio/plantilla_ca/build/windows/runner/Debug/data/flutter_assets/assets/images/ejercicio.png
+C:/Users/vabur/OneDrive/Escritorio/plantilla_ca/build/windows/runner/Debug/data/flutter_assets/assets/images/leer.png
+C:/Users/vabur/OneDrive/Escritorio/plantilla_ca/build/windows/runner/Debug/data/flutter_assets/FontManifest.json
+C:/Users/vabur/OneDrive/Escritorio/plantilla_ca/build/windows/runner/Debug/data/flutter_assets/fonts/MaterialIcons-Regular.otf
+C:/Users/vabur/OneDrive/Escritorio/plantilla_ca/build/windows/runner/Debug/data/flutter_assets/kernel_blob.bin
+C:/Users/vabur/OneDrive/Escritorio/plantilla_ca/build/windows/runner/Debug/data/flutter_assets/NOTICES.Z
+C:/Users/vabur/OneDrive/Escritorio/plantilla_ca/build/windows/runner/Debug/data/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf
+C:/Users/vabur/OneDrive/Escritorio/plantilla_ca/build/windows/runner/Debug/data/flutter_assets/shaders/ink_sparkle.frag

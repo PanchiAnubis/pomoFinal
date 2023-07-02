@@ -1,0 +1,10 @@
+^C:\USERS\VABUR\ONEDRIVE\ESCRITORIO\PLANTILLA_CA\BUILD\WINDOWS\CMAKEFILES\DA217CC8176BAFD25692E80B68CA824D\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Users/vabur/OneDrive/Escritorio/plantilla_ca/windows -BC:/Users/vabur/OneDrive/Escritorio/plantilla_ca/build/windows --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/vabur/OneDrive/Escritorio/plantilla_ca/build/windows/plantilla_ca.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
