@@ -15,11 +15,12 @@ class Pomodoro extends StatefulWidget {
 }
 
 class _PomodoroState extends State<Pomodoro> {
-  int _seconds = 60; // Valor inicial del temporizador
+  int _seconds = 10; // Valor inicial del temporizador
   int _currentInterval = 0; // Indicador del intervalo actual
-  List<int> _intervals = [60, 30, 60]; // Duraciones de los intervalos
+  List<int> _intervals = [10, 5, 10]; // Duraciones de los intervalos
   bool _isRunning = false;
   Timer? _timer;
+  List<String> _intervalHistory = [];
 
   void _startTimer() {
     if (!_isRunning) {
@@ -30,6 +31,11 @@ class _PomodoroState extends State<Pomodoro> {
           } else {
             _timer?.cancel();
             _isRunning = false;
+
+            // Almacenar el intervalo en el historial
+            String intervalName = _getIntervalLabel();
+            String intervalDuration = _intervals[_currentInterval].toString();
+            _intervalHistory.add('$intervalName\n$intervalDuration segundos');
 
             // Cambiar al siguiente intervalo
             _currentInterval++;
@@ -66,6 +72,10 @@ class _PomodoroState extends State<Pomodoro> {
 
   String _getIntervalLabel() {
     return (_currentInterval % 2 == 0) ? 'Pomodoro' : 'Descanso';
+  }
+
+  IconData _getIntervalIcon() {
+    return (_getIntervalLabel() == 'Pomodoro') ? Icons.book : Icons.coffee;
   }
 
   @override
@@ -150,44 +160,55 @@ class _PomodoroState extends State<Pomodoro> {
               ),
             ),
 
-            Padding(
-              padding: EdgeInsets.only(left: 24.0),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "Historial",
-                  textAlign: TextAlign.left,
-                ),
-              ),
+            SizedBox(height: 20),
+            Text(
+              'Historial de intervalos:',
+              style: TextStyle(fontWeight: FontWeight.bold),
             ),
-            Container(
-              padding: EdgeInsets.only(left: 24.0, right: 24.0, bottom: 10.0),
-              child: Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.5),
-                      spreadRadius: 1,
-                      blurRadius: 1,
-                      offset: Offset(0, 3),
+            SizedBox(height: 10),
+            Expanded(
+              child: ListView.builder(
+                itemCount: _intervalHistory.length,
+                itemBuilder: (context, index) {
+                  String interval = _intervalHistory[index];
+                  String intervalName = interval.split('\n')[0];
+                  String intervalDuration = interval.split('\n')[1];
+                  IconData intervalIcon =
+                      (intervalName == 'Pomodoro') ? Icons.book : Icons.coffee;
+
+                  return Container(
+                    padding: EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.5),
+                          spreadRadius: 1,
+                          blurRadius: 1,
+                          offset: Offset(0, 3),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(top: 10.0, bottom: 10),
-                      child: PomodoroHistorial(),
+                    margin: EdgeInsets.symmetric(vertical: 5.0),
+                    child: Row(
+                      children: [
+                        Icon(intervalIcon),
+                        SizedBox(width: 10),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              intervalName,
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            Text(intervalDuration),
+                          ],
+                        ),
+                      ],
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 10.0, bottom: 10),
-                      child: Coffee(),
-                    ),
-                  ],
-                ),
+                  );
+                },
               ),
             ),
           ],
