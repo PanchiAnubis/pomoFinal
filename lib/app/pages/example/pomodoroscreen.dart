@@ -5,6 +5,7 @@ import 'package:plantilla_ca/app/widgets/sesiones.dart';
 import 'package:plantilla_ca/app/widgets/pomo.dart';
 import 'package:plantilla_ca/app/widgets/appbar.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'dart:async';
 
 import '../../widgets/coffee.dart';
 
@@ -14,9 +15,64 @@ class Pomodoro extends StatefulWidget {
 }
 
 class _PomodoroState extends State<Pomodoro> {
-  double percent = 0;
-  static int TimeInminut = 25;
-  int TimeInSec = TimeInminut * 60;
+  int _seconds = 60; // Valor inicial del temporizador
+  int _currentInterval = 0; // Indicador del intervalo actual
+  List<int> _intervals = [60, 30, 60]; // Duraciones de los intervalos
+  bool _isRunning = false;
+  Timer? _timer;
+
+  void _startTimer() {
+    if (!_isRunning) {
+      _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+        setState(() {
+          if (_seconds > 0) {
+            _seconds--;
+          } else {
+            _timer?.cancel();
+            _isRunning = false;
+
+            // Cambiar al siguiente intervalo
+            _currentInterval++;
+            if (_currentInterval < _intervals.length) {
+              _seconds = _intervals[_currentInterval];
+              // Iniciar automáticamente el siguiente intervalo
+              _startTimer();
+            } else {
+              // Detener el programa después del último intervalo
+              _resetTimer();
+            }
+          }
+        });
+      });
+      _isRunning = true;
+    }
+  }
+
+  void _pauseTimer() {
+    if (_isRunning) {
+      _timer?.cancel();
+      _isRunning = false;
+    }
+  }
+
+  void _resetTimer() {
+    _timer?.cancel();
+    setState(() {
+      _seconds = _intervals[0]; // Reiniciar al primer intervalo
+      _currentInterval = 0;
+      _isRunning = false;
+    });
+  }
+
+  String _getIntervalLabel() {
+    return (_currentInterval % 2 == 0) ? 'Pomodoro' : 'Descanso';
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,18 +87,23 @@ class _PomodoroState extends State<Pomodoro> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Sesion(),
+            Padding(
+                padding: EdgeInsets.only(
+                    top:
+                        20.0), // Agrega un espacio de 16.0 en la parte superior
+                child:
+                    Text(_getIntervalLabel(), style: TextStyle(fontSize: 30))),
             Expanded(
               child: Padding(
                 padding: EdgeInsets.only(top: 16.0),
                 child: CircularPercentIndicator(
-                  percent: percent,
                   animation: true,
                   animateFromLastPercent: true,
                   radius: 100.0,
                   lineWidth: 12.0,
                   progressColor: Colors.green,
                   center: Text(
-                    "$TimeInminut",
+                    '$_seconds',
                     style: TextStyle(color: Colors.black, fontSize: 40.0),
                   ),
                 ),
@@ -63,15 +124,15 @@ class _PomodoroState extends State<Pomodoro> {
                       shape: CircleBorder(),
                       padding: EdgeInsets.all(16.0),
                     ),
-                    onPressed: () {},
-                    child: Icon(Icons.refresh),
+                    onPressed: _pauseTimer,
+                    child: Icon(Icons.pause),
                   ),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       shape: CircleBorder(),
                       padding: EdgeInsets.all(24.0),
                     ),
-                    onPressed: () {},
+                    onPressed: _startTimer,
                     child: Icon(
                       Icons.play_arrow,
                       size: 32.0,
@@ -82,7 +143,7 @@ class _PomodoroState extends State<Pomodoro> {
                       shape: CircleBorder(),
                       padding: EdgeInsets.all(16.0),
                     ),
-                    onPressed: () {},
+                    onPressed: _resetTimer,
                     child: Icon(Icons.stop),
                   ),
                 ],
